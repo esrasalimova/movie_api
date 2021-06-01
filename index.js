@@ -5,9 +5,9 @@ const morgan = require('morgan');
 app.use(morgan('common'));
 
 
-const bodyParser = require('body-parser'),
+const bodyParser = require('body-parser');
 
-app;use;(bodyParser.urlencoded({
+app.use(bodyParser.urlencoded({
   extended: true
 }));
 
