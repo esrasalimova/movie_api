@@ -4,16 +4,15 @@ const app = express();
 const morgan = require('morgan');
 app.use(morgan('common'));
 
-const app = express();
-const bodyParser = require('body-parser'),
-  methodOverride = require('method-override');
 
-app.use(bodyParser.urlencoded({
+const bodyParser = require('body-parser'),
+
+app;use;(bodyParser.urlencoded({
   extended: true
 }));
 
 app.use(bodyParser.json());
-app.use(methodOverride());
+
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -34,7 +33,7 @@ let topMovies = [
     author: 'Taylor Sheridan'
   }
 ];
-
+app.use(express.static('public'));
 // GET requests
 app.get('/', (req, res) => {
   res.send('Welcome to my movie club!');
@@ -44,15 +43,13 @@ app.get('/secreturl', (req, res) => {
   res.send('This is a secret url with super top-secret content.');
 });
 
-app.get('/documentation', (req, res) => {
-  res.sendFile('public/documentation.html', { root: __dirname });
-});
+
 
 app.get('/movies', (req, res) => {
   res.json(topMovies);
 });
 
-app.use(express.static('/public/documentation.html'));
+
 
 
 // listen for requests
