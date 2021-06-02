@@ -7,11 +7,11 @@
 <body>
 <h1>Movie API</h1>
 <p>This page will give you information about last updated movies around the world including: Movie Title, Genre, Release Year, Actors and description.</p>
-<div class="table-wrapper">
+<div class="content">
   <table class="methods-table">
     <thead>
       <th>Request</th>
-      <tr>Method</tr>
+      <th>Method</th>
       <th>URL</th>
       <th>Response</th>
     </thead>
@@ -58,7 +58,7 @@
     </tr>
     <tr>
       <td>Delete Account</td>
-      <td>REMOVE</td>
+      <td>DELETE</td>
       <td>/users/[username]</td>
       <td>Allows a user unregister and delete their account</td>
     </tr>
@@ -69,13 +69,13 @@
       <td>Update a users information</td>
     </tr>
     <td>Add to favorites</td>
-    <td>POST</td>
+    <td>PUT</td>
     <td>/users/[username]/Movies/[Movie ID]</td>
     <td>Adds a movie to the users favorites list</td>
   </tr>
   <tr>
     <td>Remove from Favorites</td>
-    <td>POST</td>
+    <td>DELETE</td>
     <td>/users/[username]/Movies/remove/[MovieID]</td>
     <td>Removes a movie from the users favorites list</td>
   </tr>

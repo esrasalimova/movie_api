@@ -49,44 +49,76 @@ app.get('/movies', (req, res) => {
   res.json(topMovies);
 });
 
-app.get('/movies', (req, res) => {
-   res.send('Successful GET request returning data on all movies');
+
+ app.get('/movies/:movie title', (req, res) => {
+   res.json(movies.find((title) =>
+   { return movie.title ===req.params.title }));
  });
 
- app.get('/movies/[movie title]', (req, res) => {
-   res.send('Successful GET request returning data about specific movie');
- });
-
- app.get('movies/[genre]', (req, res) => {
-    res.send('Successful GET request returning data about list of movies by genre');
+ app.get('movies/:genre', (req, res) => {
+    res.json(movies.find((genre) =>
+    {return movies.genre === req.params.genre }));
   });
 
-  app.get('/directors/[directors info]', (req, res) => {
-   res.send('Successful GET request returning data information about specific director');
+  app.get('/directors/:directors info', (req, res) => {
+   res.json(directors.find((directors) =>
+   { return directors.info === req.params.info}));
  });
 
  app.post('/user', (req, res) => {
-   res.send('Successful POST request returning data that user to register a new account');
+   let user = req.body;
+   if (!newUser.name) {
+     const message = 'Missing name in request body';
+     res.status(400).send(message);
+   } else {
+     newUser.id = uuid.v4();
+     user.push(newUser);
+     res.status(201).send(newUser);
+   }
  });
 
- app.get('/users/[username]', (req, res) => {
-   res.send('Successful GET request returning data that User can view their account details');
+ app.get('/users/:username', (req, res) => {
+   res.json(users.find((user) =>
+   { return user.name === req.params.username}));
  });
 
- app.remove('/users/[username]', (req, res) => {
-   res.send('Successful REMOVE request returning data Allows a user unregister and delete their account');
+ app.delete('/users/:username', (req, res) => {
+   let users = users.find((user) => { return user.name ===req.params.name});
+   if (user) {
+     users = users.filter((obj) => { return obj.name !==req.params.name});
+     res.status(201).send('User' + req.params.name + ' was deleted.');
+     }
  });
 
- app.put('/users/[user-name]', (req, res) => {
-   res.send('Successful PUT request returning data that Update a users information');
+ app.put('/users/:name', (req, res) => {
+   let user = users.find((user) => { return user.name ===req.params.name});
+
+   if (user) {
+     user.name[req.params.name] =(req.params.name);
+     res.status(201).send('User' + req.params.name + 'information updated');
+   } else {
+     res.status(404).send('User with name' + req.params.name + 'was not found.');
+   }
  });
 
- app.post('/users/[username]/Movies/[Movie ID]', (req, res) => {
-   res.send('Successful POST request returning data that Adds a movie to the users favorites list');
+ app.put('/users/:username/:movies/:movie ID', (req, res) => {
+   let user = users.find((user) => { return user.name ===req.params.name});
+
+   if (user) {
+     user.movies[req.params.movie] = parseInt(req.params.movieid);
+     res.status(201).send('User' + req.params.username + 'added to favorites' + req.params.movie + req.params.movieid);
+   } else {
+     res.status(404).send('User with the name ' + req.params.name + 'was not found.');
+   }
  });
 
- app.post('/users/[username]/Movies/remove/[MovieID]', (req, res) => {
-   res.send('Successful POST request returning data that Removes a movie from the users favorites list');
+ app.delete('/users/:username/:movies/:remove/:movieID', (req, res) => {
+   let user = users.find((user) => {return movie.name === req.params.name });
+
+   if (user) {
+     users = users.filter((obj) => {return obj.name !== req.params.name});
+     res.status(201).send('movie was removed.');
+   }
  });
 
 // listen for requests
