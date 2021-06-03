@@ -4,6 +4,7 @@ const app = express();
 const morgan = require('morgan');
 app.use(morgan('common'));
 
+const uuid = require('uuid');
 
 const bodyParser = require('body-parser');
 
@@ -19,18 +20,21 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-let topMovies = [
+let movies = [
   {
     title: 'Army of the Dead',
-    director: 'Zack Snyder'
+    director: 'Zack Snyder',
+    genre: 'Action, Crime, Horror',
   },
   {
     title: 'The Woman in the Window',
-    author: 'Joe Wright'
+    director: 'Joe Wright',
+    genre: 'Crime, Drama, Mystery',
   },
   {
     title: 'They Want me Dead',
-    author: 'Taylor Sheridan'
+    director: 'Taylor Sheridan',
+    genre: 'Action, Drama, Thriller',
   }
 ];
 app.use(express.static('public'));
@@ -50,7 +54,7 @@ app.get('/movies', (req, res) => {
 });
 
 
- app.get('/movies/:movie title', (req, res) => {
+ app.get('/movies/:title', (req, res) => {
    res.json(movies.find((title) =>
    { return movie.title ===req.params.title }));
  });
@@ -60,7 +64,7 @@ app.get('/movies', (req, res) => {
     {return movies.genre === req.params.genre }));
   });
 
-  app.get('/directors/:directors info', (req, res) => {
+  app.get('/directors/:info', (req, res) => {
    res.json(directors.find((directors) =>
    { return directors.info === req.params.info}));
  });
@@ -101,7 +105,7 @@ app.get('/movies', (req, res) => {
    }
  });
 
- app.put('/users/:username/:movies/:movie ID', (req, res) => {
+ app.put('/users/:username/:movies/:movieid', (req, res) => {
    let user = users.find((user) => { return user.name ===req.params.name});
 
    if (user) {
@@ -112,7 +116,7 @@ app.get('/movies', (req, res) => {
    }
  });
 
- app.delete('/users/:username/:movies/:remove/:movieID', (req, res) => {
+ app.delete('/users/:username/:movies/:remove/:movieid', (req, res) => {
    let user = users.find((user) => {return movie.name === req.params.name });
 
    if (user) {
