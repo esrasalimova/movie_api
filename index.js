@@ -49,7 +49,21 @@ app.get('/secreturl', (req, res) => {
 
 
 app.get('/movies', (req, res) => {
-  res.send('this gets list of all available movies with image and title');
+res.json([
+{name:"Army of the Dead", director:"Zack Snyder"},
+{name:"The Woman in the Window", director:"Joe Wright"},
+{name:"They Want me Dead", director:"Taylor Sheridan"},
+])
+});
+
+app.post('/movies', (req, res) => {
+  console.log(req.query.title)
+  console.log(req.body)
+res.json([
+  {name:"Army of the Dead", director:"Zack Snyder"},
+  {name:"The Woman in the Window", director:"Joe Wright"},
+  {name:"They Want me Dead", director:"Taylor Sheridan"},
+])
 });
 
 
