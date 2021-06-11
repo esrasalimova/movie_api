@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Movie API</h1>
-<p>This page will give you information about last updated movies around the world including: Movie Title, Genre, Release Year, Actors and description.</p>
+<p>Instructions for using Movie API</p>
 <div class="content">
   <table class="methods-table">
     <thead>
@@ -14,71 +14,158 @@
       <th>Method</th>
       <th>URL</th>
       <th>Response</th>
+      <th>HTTP Method</th>
+      <th>The format of the response data</th>
     </thead>
     <tbody>
       <tr>
-        <td>List of all movies to user</td>
-        <td>GET</td>
-        <td>/movies</td>
-        <td>Return a list of all movies to user</td>
-      </tr>
-      <tr>
-        <td>Return available data about specific movie</td>
-        <td>GET</td>
-        <td>/movies/[movie title]</td>
-        <td>A JSON object with movie title, cover art, description, genre, featured film, directors, actors</td>
-      </tr>
-      <tr>
-        <td>Return a list of movies by genre</td>
-        <td>GET</td>
-        <td>movies/[genre]</td>
-        <td>Returns and a list of movies that match the specific genre</td>
-      </tr>
-      <td>Return Directors Biography</td>
-      <td>GET</td>
-      <td>/directors/[directors info]</td>
-      <td>Gives information about specific director</td>
-    </tr>
-    <tr>
-      <td>Sign up a new user</td>
-      <td>POST</td>
-      <td>/user</td>
-      <td>Allows a user to register a new account</td>
-    </tr>
-    <tr>
-      <td>User Login</td>
-      <td>/</td>
-      <td>User can login to their account</td>
-    </tr>
-    <tr>
-      <td>View users information</td>
-      <td>GET</td>
-      <td>/users/[username]</td>
-      <td>User can view their account details</td>
-    </tr>
-    <tr>
-      <td>Delete Account</td>
-      <td>DELETE</td>
-      <td>/users/[username]</td>
-      <td>Allows a user unregister and delete their account</td>
-    </tr>
-    <tr>
-      <td>Update a users info</td>
-      <td>PUT</td>
-      <td>/users/[user-name]</td>
-      <td>Update a users information</td>
-    </tr>
-    <td>Add to favorites</td>
-    <td>PUT</td>
-    <td>/users/[username]/Movies/[Movie ID]</td>
-    <td>Adds a movie to the users favorites list</td>
-  </tr>
-  <tr>
-    <td>Remove from Favorites</td>
-    <td>DELETE</td>
-    <td>/users/[username]/Movies/remove/[MovieID]</td>
-    <td>Removes a movie from the users favorites list</td>
-  </tr>
+        <td>Create a new User in the list</td>
+                            <td>/users/</td>
+                            <td>POST</td>
+                            <th>no need of Authorization</th>
+                            <td>JSON format of user to be added in the list
+                                {
+                                    "Username": "username string",
+                                    "Password": "password example",
+                                    "Email": "example@mail.com",
+                                    "Birthday": "1990/01/01" (date format),
+                                }
+                            </td>
+                            <td>JSON format with the new user created</td>
+                            <td>JSON response from the list of users, able to create a new user in JSON file</td>
+                        </tr>
+
+                        <td>Login in user to Authorization</td>
+                                            <td>/users/login?Username=[username]&Password=[password]
+                                                Insert data through PARAMS
+                                            </td>
+                                            <td>POST</td>
+                                            <th>no need of Authorization</th>
+                                            <td>no JSON format
+                                            </td>
+                                            <td>JSON format with a JWT TOKEN created (very long).</td>
+                                            <td>JSON response from the list of users, able to create a JWT TOKEN</td>
+                                        </tr>
+
+                                        <tr>
+                    <td>Create movie in the list</td>
+                    <td>/movies/</td>
+                    <td>POST</td>
+                    <td>JSON format of movie or element to add in the list.
+                        {
+                            "Genre": {
+                                "Name": "Name of the Movie",
+                                "Description": "description of the movie"
+                            },
+                            "Director": {
+                                "Name": "name director",
+                                "Bio": "information Bio from director"
+                            },
+                            "_id": "60a8cd5037f59be3e29b1c9e", Normally generated when movie is created ramdonly
+                            "Title": "movie name",
+                            "Description": "description from the movie",
+                            "ImagePath": "link to the image"
+                            "featured": "if its featured in cinemas or not"
+                        },
+                    </td>
+                    <td>JSON format added to the list</td>
+                    <td>Create new movie in JSON file.</td>
+
+                    <tr>
+                    <td>request all the movie list</td>
+                    <td>/movies</td>
+                    <td>need Authorization from the user to call it.</td>
+                    <td>GET</td>
+                    <td>none: just need no call, not format needed</td>
+                    <td>JSON format of the complete list of movies</td>
+                    <td>JSON response returning the complete list of selected movies, no filter</td>
+                </tr>
+
+                <tr>
+                    <td>Return all users</td>
+                    <td>/users</td>
+                    <td>GET</td>
+                    <td>need Authorization from the user to call it. TOKEN</td>
+                    <td>no format</td>
+                    <td>JSON format of selected movie</td>
+                    <td>JSON response selecting the movie through the director of the movie </td>
+                </tr>
+
+                <tr>
+                                    <td>Return user by name</td>
+                                    <td>/users/:Username</td>
+                                    <td>GET</td>
+                                    <td>need Authorization from the user to call it. TOKEN</td>
+                                    <td>no format</td>
+                                    <td>JSON format of selected movie</td>
+                                    <td>JSON response selecting the movie through the director of the movie </td>
+                                </tr>
+
+                                <tr>
+                    <td>Request movie selected by title</td>
+                    <td>/movies/:Title</td>
+                    <td>GET</td>
+                    <td>need Authorization from the user to call it. TOKEN</td>
+                    <td>not format needed to call</td>
+                    <td>JSON format of selected movie</td>
+                    <td>JSON response returning a selected movies form the list of movies</td>
+                </tr>
+
+                <tr>
+    <td>Request movie selected by genre</td>
+    <td>/genre/:Name</td>
+    <td>GET</td>
+    <td>need Authorization from the user to call it.</td>
+    <td>JSON format of selected movie</td>
+    <td>JSON response returning a selected title form the list of movies</td>
+</tr>
+
+
+                <tr>
+                                    <td>Return movie selected by director name</td>
+                                    <td>/director/:Name</td>
+                                    <td>GET</td>
+                                    <td>need Authorization from the user to call it</td>
+                                    <td>JSON format of selected movie</td>
+                                    <td>JSON response selecting the movie through the director of the movie </td>
+                                </tr>
+
+                                <td>Update users selected by name</td>
+                               <td>/users/:Username</td>
+                               <td>PUT</td>
+                               <td>need Authorization from the user to call it. TOKEN</td>
+                               <td> write new strings of the movie in the JSON format
+                                   {
+                                       "Username": "new",
+                                       "Password": "new",
+                                       "Email": "new",
+                                       "Birthday": "1990/01/01" (date format),
+                                       "FavMovies" : []
+                                   }
+                               </td>
+                               <td>it will overwrite the previous description and return the new data as JSON format of selected movie</td>
+                               <td>JSON response returning a selected user updated</td>
+                           </tr>
+
+                           <tr>
+                            <td>Add a movie to a user's list of favorites</td>
+                            <td>/users/:Username/Movies/:MovieID</td>
+                            <td>POST</td>
+                            <td>need Authorization from the user to call it. TOKEN</td>
+                            <td> no JSON format needed, its Updated through the URL</td>
+                            <td>it will add the new id directly on the Favorites movies</td>
+                            <td>JSON response returning a user updated</td>
+                        </tr>
+
+                        <tr>
+                    <td>Delete user from the list of users</td>
+                    <td>DELETE/</td>
+                    <td>/users/:Username</td>
+                    <td>no JSON format needed</td>
+                    <td>Succesful message that was deleted</td>
+                    <td>remove user in JSON file and from the list.</td>
+                </tr>
+
 </tbody>
 </table>
 </div>
