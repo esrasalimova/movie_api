@@ -3,8 +3,8 @@ const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
-const Director = Models.Director;
-const Genre = Models.Genre;
+const Directors = Models.Director;
+const Genres = Models.Genre;
 
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -91,10 +91,21 @@ app.get("/movies/:Title", (req, res) => {
   });
 });
 
-app.get("/genre/:Name", (req, res) => {
+app.get("/genres", (req, res) => {
+  genres.find()
+  .then((genreSearch) => {
+    res.status(201).json(genreSearch);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+});
+
+app.get("/genres/:Name", (req, res) => {
   Genres.findOne({ Name: req.params.Name})
-  .then((genre) => {
-    res.json(genre.Description);
+  .then((genres) => {
+    res.json(genres.Description);
   })
   .catch((err) => {
     console.error(err);
@@ -102,7 +113,7 @@ app.get("/genre/:Name", (req, res) => {
   });
 });
 
-app.get('/director', (req,res)=>{
+app.get('/directors', (req,res)=>{
   Directors.find()
   .then((directorSearch) => {
     res.status(201).json(directorSearch);
@@ -113,10 +124,10 @@ app.get('/director', (req,res)=>{
   });
 });
 
-app.get("/director/:Name", (req,res) => {
+app.get("/directors/:Name", (req,res) => {
   Directors.findOne({ Name: req.params.Name })
-  .then((director) => {
-    res.json(director);
+  .then((nameDirector) => {
+    res.json(nameDirector);
   })
   .catch((err) => {
     console.error(err);
