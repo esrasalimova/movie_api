@@ -3,12 +3,12 @@ let movieSchema = mongoose.Schema({
   Title: {type: String, required: true},
   Description: {type: String, required: true},
   Genre: {
-    Name: String,
-    Description: String
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Genre'
   },
   Director: {
-    Name: String,
-    Bio: String
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Director'
   },
   Actors: [String],
   ImagePath: String,

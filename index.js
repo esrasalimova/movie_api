@@ -92,7 +92,7 @@ app.get("/movies/:Title", (req, res) => {
 });
 
 app.get("/genres", (req, res) => {
-  genres.find()
+  Genres.find()
   .then((genreSearch) => {
     res.status(201).json(genreSearch);
   })
