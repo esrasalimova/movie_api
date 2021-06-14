@@ -17,6 +17,9 @@ app.use(morgan('common'));
 
 const bodyParser = require('body-parser');
 
+const passport = require('passport');
+require('./passport');
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -28,6 +31,8 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
+
+let auth = require('./auth')(app);
 
 let movies = [
   {
@@ -57,8 +62,8 @@ app.get('/secreturl', (req, res) => {
 });
 
 
-
-app.get("/movies", (req, res) => {
+//gets list of movies
+app.get("/movies", passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.find()
   .then((movies) => {
     res.status(201).json(movies);
@@ -69,6 +74,7 @@ app.get("/movies", (req, res) => {
   });
 });
 
+//posts new movie
 app.post('/movies', (req, res) => {
   console.log(req.query.title)
   console.log(req.body)
@@ -79,7 +85,7 @@ res.json([
 ])
 });
 
-
+//gets movies by title
 app.get("/movies/:Title", (req, res) => {
   Movies.findOne({ Title: req.params.Title})
   .then((movie) => {
@@ -91,6 +97,7 @@ app.get("/movies/:Title", (req, res) => {
   });
 });
 
+//gets genre information
 app.get("/genres", (req, res) => {
   Genres.find()
   .then((genreSearch) => {
@@ -102,6 +109,7 @@ app.get("/genres", (req, res) => {
   });
 });
 
+//gets genre by its name
 app.get("/genres/:Name", (req, res) => {
   Genres.findOne({ Name: req.params.Name})
   .then((genres) => {
@@ -113,6 +121,7 @@ app.get("/genres/:Name", (req, res) => {
   });
 });
 
+//gets list of directors
 app.get('/directors', (req,res)=>{
   Directors.find()
   .then((directorSearch) => {
@@ -124,6 +133,7 @@ app.get('/directors', (req,res)=>{
   });
 });
 
+//gets directors by name
 app.get("/directors/:Name", (req,res) => {
   Directors.findOne({ Name: req.params.Name })
   .then((nameDirector) => {
@@ -159,6 +169,7 @@ app.get('/users/:Username', (req, res) => {
     });
 });
 
+//posts new user
   app.post('/users', (req, res) => {
     Users.findOne({ Username: req.body.Username })
       .then((user) => {
