@@ -1,3 +1,8 @@
+const cors = require('cors');
+app.use(cors());
+
+const {check, validationResult} = require('express-validator');
+
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
@@ -170,24 +175,40 @@ app.get('/users/:Username', (req, res) => {
 });
 
 //posts new user
-  app.post('/users', (req, res) => {
-    Users.findOne({ Username: req.body.Username })
+app.post('/users',
+  [
+    check('Username', 'Username is required').isLength({min: 5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+  ], (req, res) => {
+
+  // check the validation object for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
       .then((user) => {
         if (user) {
-          return res.status(400).send(req.body.Username + 'already exists');
+          //If the user is found, send a response that it already exists
+          return res.status(400).send(req.body.Username + ' already exists');
         } else {
           Users
             .create({
               Username: req.body.Username,
-              Password: req.body.Password,
+              Password: hashedPassword,
               Email: req.body.Email,
               Birthday: req.body.Birthday
             })
-            .then((user) =>{res.status(201).json(user) })
-          .catch((error) => {
-            console.error(error);
-            res.status(500).send('Error: ' + error);
-          })
+            .then((user) => { res.status(201).json(user) })
+            .catch((error) => {
+              console.error(error);
+              res.status(500).send('Error: ' + error);
+            });
         }
       })
       .catch((error) => {
@@ -250,6 +271,7 @@ app.post('/users/:Username/Movies/:MovieID', (req, res) => {
 });
 
 // listen for requests
-app.listen(8080, () =>{
-  console.log('Your app is listening on port 8080.');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
 });
