@@ -1,0 +1,5 @@
+{"_id":{"$oid":"60c7154589d3035a6b2d1eea"},"Name":"Action","Description":"An action story is similar to adventure and the protagonist usually takes a risky turn which leads to desparate situations."}
+{"_id":{"$oid":"60c715c989d3035a6b2d1eeb"},"Name":"Mystery","Description":"A mystery story follows an investigator as they attempt to solve a puzzle."}
+{"_id":{"$oid":"60c7165389d3035a6b2d1eec"},"Name":"Adventure","Description":"An adventure story is about a protagonist who journeys to epic distance places to accomplish something."}
+{"_id":{"$oid":"60c716c489d3035a6b2d1eed"},"Name":"Comedy","Description":"Comedy is a story that tells about a series of funny or comical events, intended to make the audience laugh."}
+{"_id":{"$oid":"60c7174b89d3035a6b2d1eee"},"Name":"Thriller","Description":"Thriller film also known as suspense thriller is a broad film genre that involves excitement and suspense in the audience."}
