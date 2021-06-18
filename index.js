@@ -11,6 +11,10 @@ const {check, validationResult} = require('express-validator');
 
 const mongoose = require('mongoose');
 const Models = require('./models.js');
+const bodyParser = require('body-parser');
+
+const passport = require('passport');
+require('./passport');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -23,10 +27,7 @@ mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnified
 
 
 
-const bodyParser = require('body-parser');
 
-const passport = require('passport');
-require('./passport');
 
 app.use(bodyParser.urlencoded({
   extended: true
