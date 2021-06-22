@@ -45,6 +45,10 @@ app.get('/', (req, res) => {
   res.send('Welcome to my movie club!');
 });
 
+app.get('/documentation', (req, res) => {
+  res.sendFile('public/documentation.html', { root: __dirname });
+});
+
 app.get('/secreturl', (req, res) => {
   res.send('This is a secret url with super top-secret content.');
 });
