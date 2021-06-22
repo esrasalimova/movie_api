@@ -24,11 +24,6 @@ const Genres = Models.Genre;
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 //mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
-
-
-
-
-
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -41,25 +36,9 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-let auth = require('./auth')(app);
+require('./auth')(app);
 
-let movies = [
-  {
-    title: 'Army of the Dead',
-    director: 'Zack Snyder',
-    genre: 'Action, Crime, Horror',
-  },
-  {
-    title: 'The Woman in the Window',
-    director: 'Joe Wright',
-    genre: 'Crime, Drama, Mystery',
-  },
-  {
-    title: 'They Want me Dead',
-    director: 'Taylor Sheridan',
-    genre: 'Action, Drama, Thriller',
-  }
-];
+
 app.use(express.static('public'));
 // GET requests
 app.get('/', (req, res) => {
@@ -83,16 +62,6 @@ app.get("/movies", passport.authenticate('jwt', {session: false}), (req, res) =>
   });
 });
 
-//posts new movie
-app.post('/movies', (req, res) => {
-  console.log(req.query.title)
-  console.log(req.body)
-res.json([
-  {name:"Army of the Dead", director:"Zack Snyder"},
-  {name:"The Woman in the Window", director:"Joe Wright"},
-  {name:"They Want me Dead", director:"Taylor Sheridan"},
-])
-});
 
 //gets movies by title
 app.get("/movies/:Title", (req, res) => {
