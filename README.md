@@ -58,4 +58,4 @@ https://calm-chamber-83197.herokuapp.com/
 # Documentation
 To see all the endpoints of the application and to test them out please check the Documentation of the application.
 
-<a href="https://github.com/esrasalimova/movie_api/blob/main/public/documentation.html">Documentation</a>
+<a href="https://calm-chamber-83197.herokuapp.com/documentation">Documentation</a>
