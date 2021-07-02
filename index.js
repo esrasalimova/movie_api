@@ -57,14 +57,14 @@ app.get('/secreturl', (req, res) => {
 
 
 //gets list of movies
-app.get("/movies", function (req, res) {
+app.get("/movies", passport.authenticate('jwt', {session: false}), (req, res) => {
  Movies.find()
-  .then(function(movies) {
+  .then((movies) => {
     res.status(201).json(movies);
   })
-  .catch(function (error) {
+  .catch((err) => {
     console.error(err);
-    res.status(500).send("Error: " + error);
+    res.status(500).send("Error: " + err);
   });
 });
 
