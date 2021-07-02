@@ -7,6 +7,8 @@ app.use(morgan('common'));
 const cors = require('cors');
 app.use(cors());
 
+let auth = require("./auth")(app);
+
 const {check, validationResult} = require('express-validator');
 
 const mongoose = require('mongoose');
