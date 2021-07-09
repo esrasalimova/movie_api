@@ -95,7 +95,7 @@ app.get("/genres", (req, res) => {
 app.get("/genres/:Name", (req, res) => {
   Genres.findOne({ Name: req.params.Name})
   .then((genres) => {
-    res.json(genres.Description);
+    res.json(genres);
   })
   .catch((err) => {
     console.error(err);
