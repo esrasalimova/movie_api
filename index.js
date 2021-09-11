@@ -249,14 +249,14 @@ app.post('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {sessi
 
 //................................get the favorite movies
 app.get(
-  "/users/:username/favoritemovies",
+  "/users/:username/favorites",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Users.findOne({
       username: req.params.username,
     })
       .then((user) => {
-        res.json(user.favoritemovies);
+        res.json(user.favorites);
       })
       .catch((err) => {
         console.error(err);
