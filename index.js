@@ -2,8 +2,13 @@ const express = require('express');
 const app = express();
 
 const morgan = require('morgan');
+
+// HTML Requests
 app.use(morgan('common'));
 
+/**
+ * CORS config
+ */
 const cors = require('cors');
 app.use(cors());
 
@@ -53,7 +58,13 @@ app.get('/secreturl', (req, res) => {
   res.send('This is a secret url with super top-secret content.');
 });
 
-
+/**
+ * Get all movies and movie details
+ * @method GET
+ * @param {string} endpoint
+ * @returns {object} containing all movies and movie data
+ * @requires authentication JWT
+ */
 //gets list of movies
 app.get("/movies", passport.authenticate('jwt', {session: false}), (req, res) => {
  Movies.find()
@@ -66,7 +77,13 @@ app.get("/movies", passport.authenticate('jwt', {session: false}), (req, res) =>
   });
 });
 
-
+/**
+ * Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user
+ * @method GET
+ * @param {string} (title) endpoint
+ * @returns {object} data about a single movie
+ * @requires authentication JWT
+ */
 //gets movies by title
 app.get("/movies/:Title", (req, res) => {
   Movies.findOne({ Title: req.params.Title})
@@ -79,6 +96,13 @@ app.get("/movies/:Title", (req, res) => {
   });
 });
 
+/**
+ * Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user
+ * @method GET
+ * @param {string} (id) endpoint
+ * @returns {object} data about a single movie
+ * @requires authentication JWT
+ */
 //gets genre information
 app.get("/genres", (req, res) => {
   Genres.find()
@@ -91,6 +115,13 @@ app.get("/genres", (req, res) => {
   });
 });
 
+/**
+ * Return data about a genre
+ * @method GET
+ * @param {string} (name) endpoint
+ * @returns {object} data about a genre
+ * @requires authentication JWT
+ */
 //gets genre by its name
 app.get("/genres/:Name", (req, res) => {
   Genres.findOne({ Name: req.params.Name})
@@ -115,6 +146,13 @@ app.get('/directors', (req,res)=>{
   });
 });
 
+/**
+ * Return data about a director by name
+ * @method GET
+ * @param {string} (name) endpoint
+ * @returns {object} data about a director
+ * @requires authenticate JWT
+ */
 //gets directors by name
 app.get("/directors/:Name", (req,res) => {
   Directors.findOne({ Name: req.params.Name })
@@ -127,6 +165,13 @@ app.get("/directors/:Name", (req,res) => {
   });
 });
 
+/**
+ * Get all users
+ * @method GET
+ * @param {string} endpoint
+ * @returns {object} containing all users
+ * @requires authentication JWT
+ */
   // Get all users
   app.get('/users', (req, res) => {
     Users.find()
@@ -139,6 +184,13 @@ app.get("/directors/:Name", (req,res) => {
       });
   });
 
+  /**
+   * Get information on one user
+   * @method GET
+   * @param {string} (username) endpoint
+   * @returns {object} containing details of one user
+   * @requires authentication JWT
+   */
   // Get a user by username
 app.get('/users/:Username', (req, res) => {
   Users.findOne({ Username: req.params.Username })
@@ -151,6 +203,14 @@ app.get('/users/:Username', (req, res) => {
     });
 });
 
+/**
+ * Allow new users to register
+ * @method POST
+ * @param {object} object containing user details
+ * @returns {object} json-object added user
+ * @requires properties username, password, email
+ * @requires auth no authentication - public
+ */
 //posts new user
 app.post('/users',
   [
@@ -194,7 +254,14 @@ app.post('/users',
       });
   });
 
-
+  /**
+   * Allow users to update their username
+   * @method PUT
+   * @param {object} object containing user details
+   * @returns {object} json-object added user
+   * @requires properties username, password, email
+   * @requires authentication JWT
+   */
 app.put('/users/:Username', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
     {
@@ -215,6 +282,13 @@ app.put('/users/:Username', (req, res) => {
   });
 });
 
+/**
+ * Allow users to deregister
+ * @method DELETE
+ * @param {string} (username) endpoint
+ * @returns {statusMessage} success/error
+ * @requires authentication JWT
+ */
 // Delete a user by username
 app.delete('/users/:Username', (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
@@ -231,6 +305,13 @@ app.delete('/users/:Username', (req, res) => {
     });
 });
 
+/**
+ * Allow users to add a movie to their list of favorites
+ * @method POST
+ * @param {string} (username, movieId) endpoint
+ * @returns {statusMessage} success/error
+ * @requires authentication JWT
+ */
 // Add a movie to a user's list of favorites
 app.post('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {session: false}), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
@@ -248,6 +329,13 @@ app.post('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {sessi
 });
 
 //................................get the favorite movies
+/**
+ * Get the favoritemovies array of a user
+ * @method GET
+ * @param {string} (username) endpoint
+ * @returns {object} containing favoritemovies array of user
+ * @requires authentication JWT
+ */
 app.get(
   "/users/:username/favorites",
   passport.authenticate("jwt", { session: false }),
@@ -264,6 +352,14 @@ app.get(
       });
   }
 );
+
+/**
+ * Allow users to remove a movie from their list of favorites
+ * @method DELETE
+ * @param {string} (username, movieId) endpoint
+ * @returns {statusMessage} success/error
+ * @requires authentication JWT
+ */
 //................................Remove a movie from a users fav movies list
 app.delete('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {session: false}), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username },

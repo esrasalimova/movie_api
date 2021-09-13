@@ -1,9 +1,22 @@
+/**
+* The data of the constant is stored in an environmental variable
+* and is used for encoding and decoding the JWT token
+* @ constant
+* @ type {string}
+*/
+
 const jwtSecret = 'your_jwt_secret'; //This has to be the same key used in the JWTStrategy
 
 const jwt = require('jsonwebtoken'),
 passport = require('passport');
 
 require('./passport'); //Your local passport file
+
+/**
+* creates a JWT token to verify the user is the same
+* @ function generateJWTToken
+* @param {object} user - The object user is passed in along with its data
+*/
 
 let generateJWTToken = (user) => {
   return jwt.sign(user, jwtSecret, {
@@ -13,11 +26,11 @@ let generateJWTToken = (user) => {
   });
 }
 
-/* POST login. */
+/* POST login. Creates an endpoint for users to login with verification */
 module.exports = (router) => {
   router.post('/login', (req, res) => {
     console.log(req.body)
-    console.log(req.params.esra) 
+    console.log(req.params.esra)
     passport.authenticate('local', {session: false }, (error, user, info) => {
       if (error || !user) {
         console.log(error)
